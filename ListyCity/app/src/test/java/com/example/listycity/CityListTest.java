@@ -47,14 +47,62 @@ class CityListTest {
 
     @Test
     void testHasCity() {
-        CityList cityList = mockCityList();
-        City city = mockCity();
+        CityList cityList = new CityList();
+        City city = new City("Edmonton", "Alberta");
+        cityList.add(city);
+
+        // Test with the same object reference
         assertTrue(cityList.hasCity(city));
 
+        // Test with a different object but same city name and province (tests equals method)
+        City sameCityDifferentObject = new City("Edmonton", "Alberta");
+        assertTrue(cityList.hasCity(sameCityDifferentObject));
+
+        // Test with a city not in the list
         City anotherCity = new City("Regina", "Saskatchewan");
         assertFalse(cityList.hasCity(anotherCity));
 
+        // Add the city and test again
         cityList.add(anotherCity);
         assertTrue(cityList.hasCity(anotherCity));
+    }
+
+    @Test
+    void testDelete() {
+        CityList cityList = mockCityList();
+        City city = new City("Regina", "Saskatchewan");
+        cityList.add(city);
+        assertEquals(2, cityList.countCities());
+
+        // Delete the city
+        cityList.delete(city);
+        assertEquals(1, cityList.countCities());
+        assertFalse(cityList.hasCity(city));
+    }
+
+    @Test
+    void testDeleteException() {
+        CityList cityList = mockCityList();
+        City city = new City("Regina", "Saskatchewan");
+
+        // Try to delete a city that doesn't exist
+        assertThrows(IllegalArgumentException.class, () -> {
+            cityList.delete(city);
+        });
+    }
+
+    @Test
+    void testCountCities() {
+        CityList cityList = new CityList();
+        assertEquals(0, cityList.countCities());
+
+        cityList.add(new City("Edmonton", "Alberta"));
+        assertEquals(1, cityList.countCities());
+
+        cityList.add(new City("Regina", "Saskatchewan"));
+        assertEquals(2, cityList.countCities());
+
+        cityList.add(new City("Charlottetown", "Prince Edward Island"));
+        assertEquals(3, cityList.countCities());
     }
 }
