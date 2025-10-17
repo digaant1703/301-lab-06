@@ -42,8 +42,6 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
-    implementation(files("/Users/pawas/Library/Android/sdk/platforms/android-36/android.jar"))
-
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.0.1")
